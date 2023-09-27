@@ -58,7 +58,7 @@ const Input = ({ uid }) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-      <StyledButton type="submit">
+      <StyledButton type="submit" onClick={() => console.log("Good morning")}>
         <span>Add</span>
       </StyledButton>
     </InputContainer>
