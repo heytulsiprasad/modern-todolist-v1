@@ -29,6 +29,7 @@ export const StyledButton = styled.button`
   box-shadow: 0px 2px 6px rgba(127, 177, 243, 0.4);
   border-radius: 12px;
   border: none;
+  cursor: pointer;
 
   span {
     font-weight: 500;
