@@ -17,8 +17,6 @@ const StyledNav = styled.nav`
 `;
 
 const Navbar = ({ isAuth, setIsAuth, profile, setProfile }) => {
-  console.log(isAuth)
-
   const handleAuthentication = async () => {
     console.log("Authenticating user")
   

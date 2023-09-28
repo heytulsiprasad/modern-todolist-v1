@@ -10,14 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "firebase": "^10.4.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@mantine/core": "^4.2.11",
     "@mantine/hooks": "^4.2.11",
     "@mantine/notifications": "^4.2.11",
-    "styled-components": "^5.3.5",
-    "tabler-icons-react": "^1.51.0"
+    "@tabler/icons-react": "^2.36.0",
+    "firebase": "^10.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-loader-spinner": "^5.4.5",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

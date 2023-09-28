@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Checkbox } from "@mantine/core";
 import { useState, useEffect } from "react";
-import { ThumbDown } from "tabler-icons-react";
-import { collection, getDocs, query, updateDoc, where, doc, onSnapshot, deleteDoc } from "firebase/firestore"
+import { IconX } from "@tabler/icons-react";
+import { collection, getDocs, query, updateDoc, where, doc, onSnapshot, deleteDoc, increment } from "firebase/firestore"
 import { db } from "../config/firebase";
+import { Bars } from "react-loader-spinner";
 
 const Container = styled.div`
   margin-top: 2rem;
@@ -18,13 +19,16 @@ const CheckboxContainer = styled.div`
 
 const TodoItems = ({ show, uid }) => {
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   // show: all, active, completed
   useEffect(() => {
     if (uid) {
-      const todosRef = collection(db, "users", uid, "todos");
 
+      const todosRef = collection(db, "users", uid, "todos");
       const unsubscribe = onSnapshot(todosRef, (querySnapshot) => {
+        setLoading(true);
+
         const allTodos = [];
 
         querySnapshot.forEach((doc) => {
@@ -35,7 +39,9 @@ const TodoItems = ({ show, uid }) => {
         })
 
         setTodos(allTodos);
+        setLoading(false);
       })
+
 
       return () => {
         unsubscribe(); // when component unmounts
@@ -58,37 +64,50 @@ const TodoItems = ({ show, uid }) => {
 
   return (
     <Container>
-      {todos
-        .filter((todo) =>
-          show === "active"
-            ? !todo.completed
-            : show === "completed"
-            ? todo.completed
-            : true
-        )
-        .map((todo) => (
-          <CheckboxContainer key={todo.id}>
-            <Checkbox
-              checked={todo.completed}
-              onChange={() => handleToggleComplete(todo.id, !todo.completed)}
-              styles={{
-                label: {
-                  textDecoration: todo.completed ? "line-through" : "none",
-                },
-              }}
-              size="md"
-              label={todo.title}
-            />
-            <ThumbDown
-              size={24}
-              strokeWidth={1}
-              color={"black"}
-              onClick={() => handleDelete(todo.id)}
-              style={{ cursor: "pointer" }}
-            />
-          </CheckboxContainer>
-        ))}
-    </Container>
+      {loading ? (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "4rem" }}>
+          <Bars
+            height="60"
+            width="60"
+            color="#2f80ed"
+            ariaLabel="bars-loading"
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
+      ) : (
+        todos
+          .filter((todo) =>
+            show === "active"
+              ? !todo.completed
+              : show === "completed"
+              ? todo.completed
+              : true
+          )
+          .map((todo) => (
+            <CheckboxContainer key={todo.id}>
+              <Checkbox
+                checked={todo.completed}
+                onChange={() => handleToggleComplete(todo.id, !todo.completed)}
+                styles={{
+                  label: {
+                    textDecoration: todo.completed ? "line-through" : "none",
+                  },
+                }}
+                size="md"
+                label={todo.title}
+              />
+              <IconX
+                size={24}
+                strokeWidth={1}
+                color={"black"}
+                onClick={() => handleDelete(todo.id)}
+                style={{ cursor: "pointer" }}
+              />
+            </CheckboxContainer>
+          ))
+      )}
+    </Container>  
   );
 };
 
