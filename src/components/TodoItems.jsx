@@ -64,7 +64,11 @@ const TodoItems = ({ show, uid }) => {
 
   return (
     <Container>
-      {loading ? (
+      {!uid ? (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "4rem", color: "#2f80ed" }}>
+          <h2>Please login to continue 🌅</h2>
+        </div>
+      ) : loading ? (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "4rem" }}>
           <Bars
             height="60"
