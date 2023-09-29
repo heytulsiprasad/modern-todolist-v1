@@ -47,7 +47,7 @@ const TodoItems = ({ show, uid }) => {
         unsubscribe(); // when component unmounts
       }
     }
-  }, [show])
+  }, [show, uid])
 
   const handleToggleComplete = async (todoId, status) => {
     const todoRef = doc(db, "users", uid, "todos", todoId);
